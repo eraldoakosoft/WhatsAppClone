@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">WhatsApp</string>
+
+
+    <string name="digiteemail">Digite Seu E-mail</string>
+    <string name="senha">Senha</string>
+    <string name="entrar">Entrar</string>
+    <string name="nao_tem_conta">Não tem conta? Cadastra-se</string>
+    <string name="cadastra">Cadastrar</string>
+    <string name="digite_seu_nome">Digite Seu Nome</string>
+    <string name="sair">Sair</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="pesquisa">Pesquisa</string>
+    <string name="texto_para_config">
+        Esse não é o seu nome de usuário
+        nem a sua senha. Esse nome firará visível
+        para seus contatos de whatsApp</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nome_de_usuario">Nome de Usuário</string>
+
+</resources>
