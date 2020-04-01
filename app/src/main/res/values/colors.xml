@@ -6,6 +6,7 @@
 
     <color name="branco">#FFFFFF</color>
     <color name="cinza_claro">#EEEEEE</color>
+    <color name="preto">#FF000000</color>
 
 
 </resources>

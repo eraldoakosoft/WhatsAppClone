@@ -50,7 +50,7 @@
         app:layout_goneMarginLeft="8dp">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editTextConfigNome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -64,7 +64,7 @@
             android:text="@string/nome_de_usuario" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageViewConfiAtualizarNome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
