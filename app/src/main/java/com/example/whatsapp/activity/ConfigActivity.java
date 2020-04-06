@@ -191,13 +191,10 @@ public class ConfigActivity extends AppCompatActivity {
                             Task<Uri> firebaseUrl = taskSnapshot.getStorage().getDownloadUrl();
                             while ( !firebaseUrl.isComplete() );
                             Uri firebase = firebaseUrl.getResult();
-                            String urlConvertida = firebase.toString();
 
                             Toast.makeText(ConfigActivity.this,
                                     "Sucesso ao fazer upload da imagem!",
                                     Toast.LENGTH_SHORT).show();
-                            System.out.println("-----------------------");
-                            System.out.println("URI " + urlConvertida);
                             atualizarFotoUsuario( firebase );
                         }
                     });
