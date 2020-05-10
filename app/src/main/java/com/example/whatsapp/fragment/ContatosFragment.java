@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 
 import com.example.whatsapp.R;
 import com.example.whatsapp.activity.ChatActivity;
+import com.example.whatsapp.activity.GrupoActivity;
 import com.example.whatsapp.adapter.ContatosAdapter;
 import com.example.whatsapp.config.ConfiguracaoFirebase;
 import com.example.whatsapp.helper.RecyclerItemClickListener;
@@ -77,9 +78,19 @@ public class ContatosFragment extends Fragment {
                             public void onItemClick(View view, int position) {
 
                                 Usuario usuarioSelecionado = listaContatos.get( position );
-                                Intent i = new Intent(getActivity(), ChatActivity.class);
-                                i.putExtra("chatContato", usuarioSelecionado);
-                                startActivity( i );
+
+                                boolean cabecalho = usuarioSelecionado.getEmail().isEmpty();
+
+                                if (cabecalho){
+                                    Intent i = new Intent(getActivity(), GrupoActivity.class);
+                                    startActivity(i);
+                                }else{
+                                    Intent i = new Intent(getActivity(), ChatActivity.class);
+                                    i.putExtra("chatContato", usuarioSelecionado);
+                                    startActivity( i );
+                                }
+
+
 
                             }
 
@@ -96,6 +107,15 @@ public class ContatosFragment extends Fragment {
                 )
         );
 
+
+        /*DEFINE USUÁRIO COM EMAIL VAZIO
+        * EM CASO DE EMAIL VAZIO O USUÁRIO SERÁ UTILIZADO COMO
+        * CABECALHO, EXIBINDO NOVO GRUPO*/
+        Usuario itemGrupo = new Usuario();
+        itemGrupo.setNome("Novo grupo");
+        itemGrupo.setEmail("");
+        listaContatos.add( itemGrupo );
+
         return view;
     }
 
@@ -111,11 +131,17 @@ public class ContatosFragment extends Fragment {
         usersRef.removeEventListener(valueEventListenerContatos);
     }
 
+    public void limparArrayUsuario(){
+        for (int i = 1; i < listaContatos.size(); i++){
+            listaContatos.remove(i);
+        }
+    }
+
     public void recuperarContatos(){
          valueEventListenerContatos = usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaContatos.clear();
+                limparArrayUsuario();
                 for ( DataSnapshot dados: dataSnapshot.getChildren() ){
 
                     Usuario usuario = dados.getValue( Usuario.class );

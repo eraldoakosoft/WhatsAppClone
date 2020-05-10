@@ -37,7 +37,9 @@ public class ConversasFragment extends Fragment {
 
     private RecyclerView recyclerViewConversas;
     private List<Conversa> listConversas = new ArrayList<>();
+    private List<Conversa> listConversas2 = new ArrayList<>();
     private ConversasAdapter adapter;
+    private ConversasAdapter adap;
     private DatabaseReference database;
     private DatabaseReference conversaRef;
     private ChildEventListener childEventListenerConversas;
@@ -48,6 +50,7 @@ public class ConversasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_conversas, container, false);
+
 
         recyclerViewConversas = view.findViewById(R.id.recycleViewConversas);
 
@@ -101,62 +104,77 @@ public class ConversasFragment extends Fragment {
 
     public void recuperarConversas(){
         listConversas.clear();
-        childEventListenerConversas = conversaRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            childEventListenerConversas = conversaRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                //RECUPERAR CONVERASAS
-                Conversa conversa = dataSnapshot.getValue( Conversa.class );
-                listConversas.add( conversa );
-                adapter.notifyDataSetChanged();
+                    //RECUPERAR CONVERASAS
+                    Conversa conversa = dataSnapshot.getValue( Conversa.class );
+                    listConversas.add( conversa );
+                    adicionarArray(listConversas);
+                    adapter.notifyDataSetChanged();
 
-            }
+                }
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    //RECUPERAR CONVERASAS
+                    Conversa conversa = dataSnapshot.getValue( Conversa.class );
+                    listConversas.add( conversa );
+                    adicionarArray(listConversas);
+                    adapter.notifyDataSetChanged();
 
-                //RECUPERAR CONVERASAS
-                Conversa conversa = dataSnapshot.getValue( Conversa.class );
-                listConversas.add( conversa );
-                adapter.notifyDataSetChanged();
+                }
 
-            }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                }
 
-            }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+    }
 
-            }
-        });
+    public boolean adicionarArray(List<Conversa> con){
+        listConversas2 = con;
+        System.out.println("########################");
+        System.out.println("Tamanho dentro da função: " + listConversas2.size());
+        //adap.notifyDataSetChanged();
+        return true;
     }
 
     public void pesquisarConversas(String texto){
         //Log.d("Enveto ", texto);
 
+        //recuperarConversas();
+
+        System.out.println("+++++++++++++++++++++++++++++");
+        System.out.println("Tamanho do Array -----> " + listConversas2.size());
+
+
         List<Conversa> listaConversasBusca = new ArrayList<>();
 
-        for ( Conversa conversa : listConversas  ){
+        for ( Conversa conversa : listConversas2  ){
 
             String nome = conversa.getUsuarioExibicao().getNome().toLowerCase();
             String ultimaMsg = conversa.getUltimaMensagem().toLowerCase();
 
             if( nome.contains(texto) || ultimaMsg.contains(texto)){
-                listaConversasBusca.add(conversa);
+                listaConversasBusca.add( conversa );
             }
         }
 
-        adapter = new ConversasAdapter(listaConversasBusca,getActivity());
-        recyclerViewConversas.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
+        adap = new ConversasAdapter(listaConversasBusca, getActivity());
+        recyclerViewConversas.setAdapter( adap );
+
 
     }
 
